@@ -21,10 +21,17 @@ public class Notelist implements Serializable {
   private final HashMap<Integer, Note> noteHashMap;
   private int nodeIdCounter = 0;
 
+  /**
+   * Constructor.
+   */
+
   public Notelist() {
     this.noteHashMap = new HashMap<>();
   }
 
+  /**
+   * Adds a note to the Hashmap and increments the counter.
+   */
   public int addNote(Note note) {
     if (note == null) {
       throw new IllegalArgumentException("Cannot add null reference");
@@ -34,6 +41,10 @@ public class Notelist implements Serializable {
     }
     return nodeIdCounter - 1;
   }
+
+  /**
+   * Removes the Note that has the id. If no Note exist the counter resets to zero.
+   */
 
   public void removeNote(int id) {
     if (!noteHashMap.containsKey(id)) {
@@ -45,6 +56,10 @@ public class Notelist implements Serializable {
     }
   }
 
+  /**
+   * Edits a Note with the corresponding id.
+   */
+
   public void editNote(int id, String newMessage) {
     if (!noteHashMap.containsKey(id)) {
       throw new IllegalArgumentException("No note with id: " + id + " found");
@@ -53,19 +68,11 @@ public class Notelist implements Serializable {
     note.setMessage(newMessage);
   }
 
-  public Note getNote(int id) {
-    if (!noteHashMap.containsKey(id)) {
-      throw new IllegalArgumentException("No note with id: " + id + " found");
-    }
-    return noteHashMap.get(id);
-  }
-
   public Set<Map.Entry<Integer, Note>> getNoteHashMap() {
     return noteHashMap.entrySet();
   }
 
-  /***
-   * <p></p>
+  /**
    * Saves Note Objekts in the file.
   */
   public void saveNote() {

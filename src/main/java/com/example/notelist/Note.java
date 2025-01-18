@@ -4,7 +4,6 @@ import java.io.Serial;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import javafx.scene.control.Label;
 
 /**
  * <p> </p>
@@ -27,8 +26,12 @@ public class Note implements Serializable {
     this.date = currentDateTime.format(formatter);
   }
 
-  public Label visualizeLabel() {
-    return new Label("Message: " + message + "\nCreated at: " + date);
+  public String getDate() {
+    return date;
+  }
+
+  public String getMessage() {
+    return message;
   }
 
   public void setMessage(String message) {

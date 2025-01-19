@@ -1,28 +1,31 @@
 package com.example.notelist;
 
-import com.example.notelist.ui_Komponents.NoteElement;
+import com.example.notelist.model.Note;
+import com.example.notelist.model.Notelist;
+import com.example.notelist.ui.NoteElement;
+import com.example.notelist.utils.BaseDialog;
 import java.util.Map;
+import java.util.Objects;
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
-import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
-import javafx.scene.control.TextInputDialog;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 /**
- * Main program that displays and adds notes.
+ * Main program for Note management.
  * Note: 40 lines.
- * NoteList: 99 lines.
- * NoteElement: 71 lines.
- * Main: 124 lines.
- * 334 lines of Code.
+ * NoteList: 97 lines.
+ * NoteElement: 75 lines.
+ * BaseDialog: 120 lines.
+ * Main: 126 lines.
+ * 458 lines of Code + 50 lines CSS.
  */
 
 public class Main extends Application {
@@ -34,6 +37,8 @@ public class Main extends Application {
       notelist = new Notelist();
     }
     ListView<NoteElement> table = new ListView<>();
+    table.setFocusTraversable(false);
+    table.getStyleClass().add("list-view");
     TextField field = new TextField();
     Button btn = new Button("Add Note");
     Label notification = new Label();
@@ -48,13 +53,18 @@ public class Main extends Application {
       setUpActionsForNoteElementButtons(table, notification, noteElement, notelist);
 
     }
+    StackPane root = new StackPane();
+    root.getChildren().add(table);
+
     HBox ioDisplay = new HBox();
     ioDisplay.setPadding(new Insets(10, 0, 0, 10));
     ioDisplay.getChildren().addAll(field, btn, notification);
     VBox display = new VBox(5);
-    display.getChildren().addAll(ioDisplay, table);
+    display.getChildren().addAll(ioDisplay, root);
     display.setOnMouseClicked(e -> notification.setVisible(false));
     Scene scene = new Scene(display, 500, 360);
+    scene.getStylesheets().add(
+            Objects.requireNonNull(getClass().getResource("/MainWindow.css")).toExternalForm());
     stage.setOnCloseRequest(e -> notelist.saveNote());
     stage.setTitle("Notes");
     stage.setResizable(false);
@@ -66,34 +76,24 @@ public class Main extends Application {
          Label notification, NoteElement noteElement, Notelist notelist) {
     noteElement.setOnEdit(() -> editNote(notelist, noteElement, notification));
     noteElement.setOnDelete(() -> {
-      Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-      alert.setTitle("Confirm");
-      alert.setContentText("Are you sure to delete the Note");
-      ButtonType yesButton = new ButtonType("Yes");
-      ButtonType noButton = new ButtonType("No");
-      alert.getButtonTypes().setAll(yesButton, noButton);
-      ButtonType result = alert.showAndWait().orElse(noButton);
-      if (result == yesButton) {
+      BaseDialog baseDialog = new BaseDialog("Confirm", "Yes", "No");
+      boolean result = baseDialog.showConfirmationDialog("Are you sure to delete the Note?");
+      if (result) {
         removeNote(notelist, table, noteElement, notification);
-      } else if (result == noButton) {
-        System.out.println("nope");
       }
-
     });
     table.getItems().add(noteElement);
   }
 
   private void editNote(Notelist notelist, NoteElement noteElement, Label n) {
     int id = noteElement.getTheId();
-    TextInputDialog textInputDialog = new TextInputDialog();
-    textInputDialog.setResizable(false);
-    textInputDialog.setTitle("Edit Note");
-    textInputDialog.setHeaderText("");
-    textInputDialog.setContentText("Type in the new content of the note:");
-    textInputDialog.showAndWait();
-    if (textInputDialog.getResult() != null) {
-      notelist.editNote(id, textInputDialog.getResult());
-      noteElement.setLabelContent(textInputDialog.getResult());
+    BaseDialog baseDialog = new BaseDialog("Edit Note", "Edit", "Cancel");
+    String result = baseDialog.showTextInputDialog("Type in the new content of the note:",
+            noteElement.getNoteLabelContent());
+
+    if (result != null) {
+      notelist.editNote(id, result);
+      noteElement.setLabelContent(result);
       showNotification(n, "Note edited successfully!");
     }
   }

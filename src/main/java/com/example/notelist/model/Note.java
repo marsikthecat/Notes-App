@@ -1,4 +1,4 @@
-package com.example.notelist;
+package com.example.notelist.model;
 
 import java.io.Serial;
 import java.io.Serializable;

@@ -1,6 +1,6 @@
-package com.example.notelist.ui_Komponents;
+package com.example.notelist.ui;
 
-import com.example.notelist.Note;
+import com.example.notelist.model.Note;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
@@ -26,6 +26,7 @@ public class NoteElement extends VBox {
   public NoteElement(Note note) {
     this.noteLabel = new Label(note.getMessage());
     noteLabel.setStyle("-fx-font-size: 18px; -fx-padding: 8; -fx-font-weight: bold");
+    noteLabel.setWrapText(true);
     String date = note.getDate();
 
     HBox boxWithLabel = new HBox(noteLabel);
@@ -46,7 +47,6 @@ public class NoteElement extends VBox {
     this.getChildren().addAll(boxWithLabel, boxWithRest);
     this.setSpacing(10);
     this.setStyle("-fx-background-color: #f0f0f0; -fx-padding: 10; -fx-border-color: #dcdcdc;");
-    this.setPrefHeight(100);
   }
 
   public void setOnEdit(Runnable action) {
@@ -67,5 +67,9 @@ public class NoteElement extends VBox {
 
   public void setLabelContent(String labelContent) {
     this.noteLabel.setText(labelContent);
+  }
+
+  public String getNoteLabelContent() {
+    return noteLabel.getText();
   }
 }

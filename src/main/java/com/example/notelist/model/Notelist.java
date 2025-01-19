@@ -1,4 +1,4 @@
-package com.example.notelist;
+package com.example.notelist.model;
 
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -12,7 +12,6 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * <p> </p>
  * Notelist that stores Notes.
  */
 public class Notelist implements Serializable {
@@ -83,8 +82,7 @@ public class Notelist implements Serializable {
     }
   }
 
-  /***
-   * <p> </p>
+  /**
    * Lodes Notes from the File and deserialize them.
    */
   public static Notelist loadNote() {

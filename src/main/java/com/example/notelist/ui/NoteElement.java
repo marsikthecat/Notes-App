@@ -35,13 +35,13 @@ public class NoteElement extends VBox {
     dateLabel.setText(date);
     dateLabel.setStyle("-fx-font-size: 9px; -fx-padding: 5;");
 
-    editButton = new Button("✏️");
-    deleteButton = new Button("🗑️");
+    editButton = new Button("Edit");
+    deleteButton = new Button("Delete");
     HBox buttonBar = new HBox(10, editButton, deleteButton);
-    buttonBar.setAlignment(Pos.BASELINE_LEFT);
+    buttonBar.setAlignment(Pos.BASELINE_RIGHT);
 
     HBox dateLabelBox = new HBox(dateLabel);
-    dateLabelBox.setAlignment(Pos.BASELINE_RIGHT);
+    dateLabelBox.setAlignment(Pos.BASELINE_LEFT);
     HBox boxWithRest = new HBox(dateLabelBox, buttonBar);
 
     this.getChildren().addAll(boxWithLabel, boxWithRest);

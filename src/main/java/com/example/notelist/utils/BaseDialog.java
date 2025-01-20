@@ -3,7 +3,6 @@ package com.example.notelist.utils;
 import java.util.Objects;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
-import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -38,7 +37,7 @@ public class BaseDialog {
     btn1 = new Button(button1Text);
     btn2 = new Button(button2Text);
 
-    layout = new VBox(15);
+    layout = new VBox(10);
     layout.getStyleClass().add("root");
   }
 
@@ -75,7 +74,6 @@ public class BaseDialog {
     TextField textField = new TextField(defaultText);
     textField.getStyleClass().add("text-field");
 
-
     btn1.setOnAction(e -> {
       inputResult.set(textField.getText());
       stage.close();
@@ -106,7 +104,6 @@ public class BaseDialog {
    */
   private HBox createButtonBox() {
     HBox buttonBox = new HBox(10, btn1, btn2);
-    buttonBox.setPadding(new Insets(10));
     buttonBox.setStyle("-fx-alignment: center;");
     return buttonBox;
   }

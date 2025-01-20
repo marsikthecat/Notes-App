@@ -1,11 +1,12 @@
 package com.example.notelist.ui;
 
 import com.example.notelist.model.Note;
-import javafx.geometry.Insets;
-import javafx.geometry.Pos;
+import java.util.Objects;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
+import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 
 /**
@@ -25,28 +26,29 @@ public class NoteElement extends VBox {
 
   public NoteElement(Note note) {
     this.noteLabel = new Label(note.getMessage());
-    noteLabel.setStyle("-fx-font-size: 18px; -fx-padding: 8; -fx-font-weight: bold");
-    noteLabel.setWrapText(true);
+    noteLabel.getStyleClass().add("note_label");
     String date = note.getDate();
 
-    HBox boxWithLabel = new HBox(noteLabel);
-    boxWithLabel.setPadding(new Insets(2));
     Label dateLabel = new Label();
     dateLabel.setText(date);
-    dateLabel.setStyle("-fx-font-size: 9px; -fx-padding: 5;");
+    dateLabel.getStyleClass().add("date_label");
 
     editButton = new Button("Edit");
     deleteButton = new Button("Delete");
+    editButton.getStyleClass().add("button");
+    deleteButton.getStyleClass().add("button");
     HBox buttonBar = new HBox(10, editButton, deleteButton);
-    buttonBar.setAlignment(Pos.BASELINE_RIGHT);
 
+    Region spacer = new Region();
+    HBox.setHgrow(spacer, Priority.ALWAYS);
+
+    HBox boxWithLabel = new HBox(noteLabel);
     HBox dateLabelBox = new HBox(dateLabel);
-    dateLabelBox.setAlignment(Pos.BASELINE_LEFT);
-    HBox boxWithRest = new HBox(dateLabelBox, buttonBar);
-
+    HBox boxWithRest = new HBox(dateLabelBox, spacer, buttonBar);
     this.getChildren().addAll(boxWithLabel, boxWithRest);
-    this.setSpacing(10);
-    this.setStyle("-fx-background-color: #f0f0f0; -fx-padding: 10; -fx-border-color: #dcdcdc;");
+    this.getStylesheets().add(Objects.requireNonNull(getClass()
+            .getResource("/NoteElement.css")).toExternalForm());
+    this.getStyleClass().add("whole_box");
   }
 
   public void setOnEdit(Runnable action) {

@@ -1,0 +1,26 @@
+.note_label {
+    -fx-font-size: 13pt;
+    -fx-padding: 10px;
+    -fx-font-weight: bold;
+    -fx-wrap-text: true;
+}
+
+.date_label {
+    -fx-padding: 10px 0 0 0;
+    -fx-font-size: 7pt;
+}
+
+.whole_box {
+    -fx-background-color: #f0f0f0;
+    -fx-padding: 12px;
+    -fx-border-color: #d0d0d0;
+    -fx-pref-width: 100%;
+}
+
+.whole_box:hover {
+    -fx-background-color: #daf5ff;
+}
+
+.button {
+    -fx-pref-width: 60px;
+}

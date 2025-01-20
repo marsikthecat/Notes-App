@@ -1,7 +1,5 @@
 .root {
-    -fx-background-color: linear-gradient(to bottom, #ffffff, #eaeaea);
-    -fx-background-radius: 10;
-    -fx-border-radius: 10;
+    -fx-background-color: linear-gradient(to bottom, #ffffff, #d2d2d2);
     -fx-border-color: #cccccc;
     -fx-border-width: 1;
     -fx-padding: 15;
@@ -14,7 +12,7 @@
 }
 
 .text-field {
-    -fx-font-size: 14;
+    -fx-font-size: 13;
     -fx-background-radius: 5;
     -fx-border-radius: 5;
     -fx-border-color: #cccccc;
@@ -27,6 +25,7 @@
     -fx-font-size: 14;
     -fx-background-radius: 5;
     -fx-padding: 5;
+    -fx-pref-width: 75px;
 }
 
 .button:hover {

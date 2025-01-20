@@ -1,19 +1,4 @@
-.list-cell-custom {
-    -fx-padding: 10px;
-    -fx-border-insets: 3;
-    -fx-border-color: #d0d0d0;
-    -fx-border-width: 1;
-    -fx-alignment: center-left;
-    -fx-pref-width: 100%;
-    -fx-max-width: 100%;
-}
-
-.list-cell-custom:hover {
-    -fx-background-color: #b4eeff;
-}
-
-.list-cell-custom-empty {
+.list-cell:focused, .list-cell:selected {
     -fx-background-color: transparent;
-    -fx-padding: 0;
-    -fx-border-width: 0;
+    -fx-border-color: transparent;
 }

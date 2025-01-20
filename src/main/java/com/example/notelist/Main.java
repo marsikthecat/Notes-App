@@ -22,10 +22,10 @@ import javafx.stage.Stage;
  * Main program for Note management.
  * Note: 40 lines.
  * NoteList: 97 lines.
- * NoteElement: 75 lines.
- * BaseDialog: 120 lines.
- * Main: 141 lines.
- * 473 lines of Code + 53 lines CSS.
+ * NoteElement: 77 lines.
+ * BaseDialog: 117 lines.
+ * Main: 142 lines.
+ * 473 lines of Code + 63 lines CSS.
  */
 
 public class Main extends Application {
@@ -47,15 +47,16 @@ public class Main extends Application {
         if (empty || item == null) {
           setGraphic(null);
           setText(null);
-          getStyleClass().add("list-cell-custom-empty");
         } else {
           setGraphic(item);
-          getStyleClass().add("list-cell-custom");
+          getStyleClass().add("list-cell");
         }
       }
     });
 
     TextField field = new TextField();
+    field.setPromptText("Type in your new note:");
+    field.setFocusTraversable(false);
 
     Button btn = new Button("Add Note");
     btn.setOnAction(e -> addNote(field.getText()));

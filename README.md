@@ -1,4 +1,4 @@
-## Note Management App
+# Note Management App
 
 A simple application built with Java and JavaFX to manage your notes.
 

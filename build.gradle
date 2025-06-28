@@ -26,7 +26,7 @@ tasks.withType(JavaCompile) {
 
 application {
   mainModule = 'com.example.notelist'
-  mainClass = 'com.example.notelist.HelloApplication'
+  mainClass = 'com.example.notelist.Main'
 }
 
 javafx {
@@ -53,4 +53,12 @@ jlink {
 
 jlinkZip {
   group = 'distribution'
+}
+
+jar {
+  manifest {
+    attributes(
+      'Main-Class': 'com.example.notelist.Main',
+    )
+  }
 }

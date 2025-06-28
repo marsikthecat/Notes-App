@@ -10,6 +10,7 @@ import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
+import java.util.UUID;
 
 /**
  * Notelist that stores Notes.
@@ -17,8 +18,7 @@ import java.util.Set;
 public class Notelist implements Serializable {
   @Serial
   private static final long serialVersionUID = 1L;
-  private final HashMap<Integer, Note> noteHashMap;
-  private int nodeIdCounter = 0;
+  private final HashMap<UUID, Note> noteHashMap;
 
   /**
    * Constructor.
@@ -31,27 +31,23 @@ public class Notelist implements Serializable {
   /**
    * Adds a note to the Hashmap and increments the counter.
    */
-  public int addNote(Note note) {
+  public void addNote(Note note) {
     if (note == null) {
       throw new IllegalArgumentException("Cannot add null reference");
     } else {
-      noteHashMap.put(nodeIdCounter, note);
-      nodeIdCounter++;
+      noteHashMap.put(note.getId(), note);
     }
-    return nodeIdCounter - 1;
   }
 
   /**
-   * Removes the Note that has the id. If no Note exist the counter resets to zero.
+   * Removes the Note that has the id.
    */
 
-  public void removeNote(int id) {
-    if (!noteHashMap.containsKey(id)) {
+  public void removeNote(UUID id) {
+    if (noteHashMap.containsKey(id)) {
+      noteHashMap.remove(id);
+    } else {
       throw new IllegalArgumentException("No note with id: " + id + " found");
-    }
-    noteHashMap.remove(id);
-    if (noteHashMap.isEmpty()) {
-      nodeIdCounter = 0;
     }
   }
 
@@ -59,15 +55,15 @@ public class Notelist implements Serializable {
    * Edits a Note with the corresponding id.
    */
 
-  public void editNote(int id, String newMessage) {
-    if (!noteHashMap.containsKey(id)) {
+  public void editNote(UUID id, String newMessage) {
+    if (noteHashMap.containsKey(id)) {
+      noteHashMap.get(id).setMessage(newMessage);
+    } else {
       throw new IllegalArgumentException("No note with id: " + id + " found");
     }
-    Note note = noteHashMap.get(id);
-    note.setMessage(newMessage);
   }
 
-  public Set<Map.Entry<Integer, Note>> getNoteHashMap() {
+  public Set<Map.Entry<UUID, Note>> getNoteHashMap() {
     return noteHashMap.entrySet();
   }
 

@@ -4,19 +4,19 @@ import java.io.Serial;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.UUID;
 
 /**
- * <p> </p>
  * Note Object that has content and date.
  */
 public class Note implements Serializable {
   @Serial
   private static final long serialVersionUID = 1L;
+  private final UUID id = UUID.randomUUID();
   private String message;
   private final String date;
 
   /**
-   * <p> </p>
    * Constructor for Note.
    */
   public Note(String message) {
@@ -32,6 +32,10 @@ public class Note implements Serializable {
 
   public String getMessage() {
     return message;
+  }
+
+  public UUID getId() {
+    return id;
   }
 
   public void setMessage(String message) {

@@ -2,6 +2,7 @@ package com.example.notelist.ui;
 
 import com.example.notelist.model.Note;
 import java.util.Objects;
+import java.util.UUID;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
@@ -15,15 +16,14 @@ import javafx.scene.layout.VBox;
 
 public class NoteElement extends VBox {
 
-  private int id;
+  private UUID id;
   private final Button editButton;
   private final Button deleteButton;
   private final Label noteLabel;
 
   /**
-     * Constructor.
-     */
-
+   * Constructor.
+   */
   public NoteElement(Note note) {
     this.noteLabel = new Label(note.getMessage());
     noteLabel.getStyleClass().add("note_label");
@@ -51,22 +51,32 @@ public class NoteElement extends VBox {
     this.getStyleClass().add("whole_box");
   }
 
+  /**
+   * Sets the action for the edit button.
+   */
   public void setOnEdit(Runnable action) {
     editButton.setOnAction(e -> action.run());
   }
+
+  /**
+   * Sets the action for the delete button.
+   */
 
   public void setOnDelete(Runnable action) {
     deleteButton.setOnAction(e -> action.run());
   }
 
-  public int getTheId() {
+  public UUID getTheId() {
     return id;
   }
 
-  public void setId(int id) {
+  public void setId(UUID id) {
     this.id = id;
   }
 
+  /**
+     * Sets the content of the note label.
+   */
   public void setLabelContent(String labelContent) {
     this.noteLabel.setText(labelContent);
   }

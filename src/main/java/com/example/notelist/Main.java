@@ -6,6 +6,7 @@ import com.example.notelist.ui.NoteElement;
 import com.example.notelist.utils.BaseDialog;
 import java.util.Map;
 import java.util.Objects;
+import java.util.UUID;
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
@@ -20,12 +21,12 @@ import javafx.stage.Stage;
 
 /**
  * Main program for Note management.
- * Note: 40 lines.
- * NoteList: 97 lines.
- * NoteElement: 77 lines.
+ * Note: 44 lines.
+ * NoteList: 93 lines.
+ * NoteElement: 87 lines.
  * BaseDialog: 117 lines.
- * Main: 142 lines.
- * 473 lines of Code + 63 lines CSS.
+ * Main: 147 lines.
+ * 488 lines of Code + 63 lines CSS.
  */
 
 public class Main extends Application {
@@ -65,7 +66,7 @@ public class Main extends Application {
     notification.setVisible(false);
     notification.setPadding(new Insets(5, 0, 0, 5));
 
-    for (Map.Entry<Integer, Note> entry : notelist.getNoteHashMap()) {
+    for (Map.Entry<UUID, Note> entry : notelist.getNoteHashMap()) {
       Note note = entry.getValue();
       NoteElement noteElement = new NoteElement(note);
       noteElement.setId(entry.getKey());
@@ -104,7 +105,7 @@ public class Main extends Application {
   }
 
   private void editNote(NoteElement noteElement) {
-    int id = noteElement.getTheId();
+    UUID id = noteElement.getTheId();
     BaseDialog baseDialog = new BaseDialog("Edit Note", "Edit", "Cancel");
     String result = baseDialog.showTextInputDialog("Type in the new content of the note:",
             noteElement.getNoteLabelContent());
@@ -123,9 +124,9 @@ public class Main extends Application {
 
   private void addNote(String noteContent) {
     Note note = new Note(noteContent);
-    int id = notelist.addNote(note);
+    notelist.addNote(note);
     NoteElement noteElement = new NoteElement(note);
-    noteElement.setId(id);
+    noteElement.setId(note.getId());
     setUpActionsForNoteElementButtons(noteElement);
     showNotification("Note added successfully!");
   }
@@ -135,6 +136,10 @@ public class Main extends Application {
     table.getItems().remove(noteElement);
     showNotification("Note deleted successfully!");
   }
+
+  /**
+   * .
+   */
 
   public static void main(String[] args) {
     launch();

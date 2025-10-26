@@ -1,29 +1,22 @@
 package com.example.notelist.model;
 
-import java.io.Serial;
-import java.io.Serializable;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.UUID;
 
 /**
  * Note Object that has content and date.
  */
-public class Note implements Serializable {
-  @Serial
-  private static final long serialVersionUID = 1L;
-  private final UUID id = UUID.randomUUID();
+public class Note {
+  private final UUID id;
   private String message;
   private final String date;
 
   /**
-   * Constructor for Note.
+   * Constructor for Note with UUID initialization.
    */
-  public Note(String message) {
+  public Note(String message, String date) {
+    this.id = UUID.randomUUID();
     this.message = message;
-    LocalDateTime currentDateTime = LocalDateTime.now();
-    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm");
-    this.date = currentDateTime.format(formatter);
+    this.date = date;
   }
 
   public String getDate() {

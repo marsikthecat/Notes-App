@@ -61,7 +61,6 @@ public class NoteElement extends VBox {
   /**
    * Sets the action for the delete button.
    */
-
   public void setOnDelete(Runnable action) {
     deleteButton.setOnAction(e -> action.run());
   }
@@ -75,7 +74,7 @@ public class NoteElement extends VBox {
   }
 
   /**
-     * Sets the content of the note label.
+   * Sets the content of the note label.
    */
   public void setLabelContent(String labelContent) {
     this.noteLabel.setText(labelContent);

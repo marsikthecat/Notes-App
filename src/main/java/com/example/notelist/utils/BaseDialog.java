@@ -16,7 +16,6 @@ import javafx.stage.Stage;
 /**
  * This helper class for ui for easier customized dialoges.
  */
-
 public class BaseDialog {
 
   private final Stage stage;
@@ -27,7 +26,6 @@ public class BaseDialog {
   /**
    * Constructor which determines the fundamentals of the Dialog.
    */
-
   public BaseDialog(String title, String button1Text, String button2Text) {
     stage = new Stage();
     stage.initModality(Modality.APPLICATION_MODAL);
@@ -67,8 +65,8 @@ public class BaseDialog {
   }
 
   /**
-     * Shows a text input dialog with a given message and default text.
-     */
+   * Shows a text input dialog with a given message and default text.
+   */
   public String showTextInputDialog(String message, String defaultText) {
     AtomicReference<String> inputResult = new AtomicReference<>(null);
     TextField textField = new TextField(defaultText);

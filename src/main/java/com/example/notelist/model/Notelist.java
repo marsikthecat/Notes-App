@@ -1,29 +1,30 @@
 package com.example.notelist.model;
 
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.io.Serial;
-import java.io.Serializable;
+import java.lang.reflect.Type;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
 import java.util.UUID;
 
 /**
  * Notelist that stores Notes.
  */
-public class Notelist implements Serializable {
-  @Serial
-  private static final long serialVersionUID = 1L;
-  private final HashMap<UUID, Note> noteHashMap;
+public class Notelist {
+
+  private HashMap<UUID, Note> noteHashMap;
+  private final Gson gson = new Gson();
 
   /**
    * Constructor.
    */
-
   public Notelist() {
     this.noteHashMap = new HashMap<>();
   }
@@ -42,52 +43,61 @@ public class Notelist implements Serializable {
   /**
    * Removes the Note that has the id.
    */
-
   public void removeNote(UUID id) {
-    if (noteHashMap.containsKey(id)) {
-      noteHashMap.remove(id);
-    } else {
+    if (noteHashMap.remove(id) == null) {
       throw new IllegalArgumentException("No note with id: " + id + " found");
     }
   }
 
   /**
-   * Edits a Note with the corresponding id.
+   * Edits a Note that has the corresponding id.
    */
-
   public void editNote(UUID id, String newMessage) {
-    if (noteHashMap.containsKey(id)) {
-      noteHashMap.get(id).setMessage(newMessage);
-    } else {
+    Note note = noteHashMap.get(id);
+    if (note == null) {
       throw new IllegalArgumentException("No note with id: " + id + " found");
     }
+    note.setMessage(newMessage);
   }
 
-  public Set<Map.Entry<UUID, Note>> getNoteHashMap() {
-    return noteHashMap.entrySet();
+  public HashMap<UUID, Note> getNoteHashMap() {
+    return noteHashMap;
   }
 
   /**
-   * Saves Note Objekts in the file.
+   * Saves Note Objekts in the JSON file.
   */
   public void saveNote() {
-    try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("notes.ser"))) {
-      out.writeObject(this);
-    } catch (IOException i) {
-      i.getCause();
+    try (BufferedWriter writer = new BufferedWriter(new FileWriter("notes.json"))) {
+      gson.toJson(noteHashMap, writer);
+    } catch (IOException e) {
+      System.err.println(e.getMessage());
     }
   }
 
   /**
-   * Lodes Notes from the File and deserialize them.
+   * Lodes Notes from the File. If the file does not exist, it will be created.
    */
-  public static Notelist loadNote() {
-    Notelist notelist = null;
-    try (ObjectInputStream in = new ObjectInputStream(new FileInputStream("notes.ser"))) {
-      notelist = (Notelist) in.readObject();
-    } catch (IOException | ClassNotFoundException i) {
-      i.getCause();
+  public void loadNote() {
+    Path path = Path.of("notes.json");
+    if (!Files.exists(path)) {
+      try {
+        Files.createFile(path);
+        return;
+      } catch (IOException e) {
+        System.err.println(e.getMessage());
+        return;
+      }
     }
-    return notelist;
+    try (BufferedReader reader = new BufferedReader(new FileReader("notes.json"))) {
+      Type type = new TypeToken<Map<UUID, Note>>(){}.getType();
+      noteHashMap = gson.fromJson(reader, type);
+      if (noteHashMap == null) {
+        noteHashMap = new HashMap<>();
+      }
+    } catch (IOException e) {
+      noteHashMap = new HashMap<>();
+      System.err.println(e.getMessage());
+    }
   }
 }

@@ -4,6 +4,8 @@ import com.example.notelist.model.Note;
 import com.example.notelist.model.Notelist;
 import com.example.notelist.ui.NoteElement;
 import com.example.notelist.utils.BaseDialog;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Map;
 import java.util.Objects;
 import java.util.UUID;
@@ -21,24 +23,22 @@ import javafx.stage.Stage;
 
 /**
  * Main program for Note management.
- * Note: 44 lines.
- * NoteList: 93 lines.
- * NoteElement: 87 lines.
- * BaseDialog: 117 lines.
- * Main: 147 lines.
- * 488 lines of Code + 63 lines CSS.
+ * Note: 37 lines.
+ * NoteList: 103 lines.
+ * NoteElement: 86 lines.
+ * BaseDialog: 115 lines.
+ * Main: 149 lines.
+ * 490 lines + 63 lines CSS.
  */
 
 public class Main extends Application {
-  private Notelist notelist = Notelist.loadNote();
+  private final Notelist notelist = new Notelist();
   private ListView<NoteElement> table;
   private Label notification;
 
   @Override
   public void start(Stage stage) {
-    if (notelist == null) {
-      notelist = new Notelist();
-    }
+    notelist.loadNote();
     table = new ListView<>();
     table.setFocusTraversable(false);
     table.setCellFactory(list -> new ListCell<>() {
@@ -66,7 +66,7 @@ public class Main extends Application {
     notification.setVisible(false);
     notification.setPadding(new Insets(5, 0, 0, 5));
 
-    for (Map.Entry<UUID, Note> entry : notelist.getNoteHashMap()) {
+    for (Map.Entry<UUID, Note> entry : notelist.getNoteHashMap().entrySet()) {
       Note note = entry.getValue();
       NoteElement noteElement = new NoteElement(note);
       noteElement.setId(entry.getKey());
@@ -123,7 +123,10 @@ public class Main extends Application {
   }
 
   private void addNote(String noteContent) {
-    Note note = new Note(noteContent);
+    LocalDateTime currentDateTime = LocalDateTime.now();
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm");
+    String noteDate = currentDateTime.format(formatter);
+    Note note = new Note(noteContent, noteDate);
     notelist.addNote(note);
     NoteElement noteElement = new NoteElement(note);
     noteElement.setId(note.getId());
@@ -140,7 +143,6 @@ public class Main extends Application {
   /**
    * .
    */
-
   public static void main(String[] args) {
     launch();
   }

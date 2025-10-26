@@ -30,7 +30,7 @@ public class Notelist {
   }
 
   /**
-   * Adds a note to the Hashmap and increments the counter.
+   * Adds a note to the Hashmap.
    */
   public void addNote(Note note) {
     if (note == null) {
